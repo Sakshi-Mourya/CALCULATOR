@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Compound Interest Calculator</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-gray-100 font-sans pb-8">
+    <!-- start of component-->
+    <div class="px-10 flex-col justify-center" x-data="calculator()">
+        <header class="w-full p-6">
+            <h1 class="text-center text-2xl">Compound Interest Calculator</h1>
+        </header>
+        <div class="w-full mb-6 flex flex-col md:flex-row justify-center">
+            <input title="Investment amount" type="number" x-model="initialAmount" @change="calculation()"
+                class="border border-gray-200 focus:outline-none focus:ring focus:ring-blue-300 focus:border-blue-300 text-center w-full md:w-1/5 p-2"
+                placeholder="Initial investment amount" step="1" min="0">
+
+            <input title="Yearly investment amount" type="number" x-model="yearlyAmount" @change="calculation()"
+                class="border border-gray-200 focus:outline-none focus:ring focus:ring-blue-300 focus:border-blue-300 text-center w-full md:w-1/5 p-2"
+                placeholder="Yearly deposit" step="1" min="0">
+
+            <input title="Interest rate (%)" x-model="interestRate" type="number" @change="calculation()"
+                class="border border-gray-200 focus:outline-none focus:ring focus:ring-blue-300 focus:border-blue-300 text-center w-full md:w-1/5 p-2"
+                placeholder="Estimated interest rate (%)" step="0.1" min="0.1">
+
+            <input title="Investment period" x-model="years" type="number" step="1" min="1" @change="calculation()"
+                class="border border-gray-200 focus:outline-none focus:ring focus:ring-blue-300 focus:border-blue-300 text-center w-full md:w-1/5 p-2"
+                placeholder="Investment period (in years)">
+            <div class="w-full md:w-1/5">
+                <button class="bg-green-500 p-2 py-4 text-white w-full" @click="calculation()">Calculate</button>
+            </div>
+
+        </div>
+
+        <section>
+            <div x-show="profits.length > 0" x-cloak class="w-full flex-col">
+                <h1 class="text-center font-bold my-6 pb-2 border-b border-dotted">Total savings results</h1>
+                <table class="w-full table-auto text-center">
+                    <thead class="bg-blue-600 text-white">
+                        <tr>
+                            <th class="py-1">Year</th>
+                            <th class="py-1">Profit</th>
+                            <th class="py-1">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template x-for="profit in profits">
+                            <tr class="border-b dotted">
+                                <td class="py-0.5" x-text="profit.year + '.'"></td>
+                                <td class="py-0.5" x-text="profit.yearProfit"></td>
+                                <td class="py-0.5" x-text="profit.yearSavings"></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                    <tfoot>
+                        <tr class="bg-green-600 text-white">
+                            <th class="py-2">Total invested:<br><span class="text-xl" x-text="totalInvested"></span></th>
+                            <th class="py-2">Total profit:<br><span class="text-xl" x-text="totalProfit"></span></th>
+                            <th class="py-2">Total savings:<br><span class="text-xl" x-text="totalSavings"></span></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+
+        <!-- end of component-->
+    </div>
+    <script src="calculator.js"></script>
+</body>
+
+</html>
